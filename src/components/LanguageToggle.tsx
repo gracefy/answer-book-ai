@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const LanguageToggle = () => {
+export default function LanguageToggle() {
   const [language, setLanguage] = useState<"en" | "zh">("zh");
 
   const toggleLanguage = (newLanguage: "en" | "zh") => {
@@ -28,5 +28,3 @@ const LanguageToggle = () => {
     </div>
   )
 }
-
-export default LanguageToggle
