@@ -1,8 +1,8 @@
-"use Cleint";
+'use Cleint'
 
 type Props = {
-  value: string;
-  onChange: (value: string) => void;
+  value: string
+  onChange: (value: string) => void
 }
 
 export default function AskInput({ value, onChange }: Props) {
@@ -10,10 +10,9 @@ export default function AskInput({ value, onChange }: Props) {
     <input
       type="text"
       value={value}
-      placeholder="Ask your question..."
+      placeholder="What do you seek..."
       onChange={(e) => onChange(e.target.value)}
-      className="w-full max-w-md px-4 py-2 rounded-md bg-white/10 font-mono text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+      className="mt-5 w-full max-w-lg rounded-md bg-purple-200/10 px-4 py-2 font-mono text-purple-100/70 placeholder-white/50 transition-all focus:ring-2 focus:ring-purple-500 focus:outline-none"
     />
   )
-};
-
+}
