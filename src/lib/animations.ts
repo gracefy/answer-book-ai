@@ -1,34 +1,29 @@
-type Direction = 'up' | 'down' | 'left' | 'right'
-
-export const fadeIn = (direction: Direction, delay = 0) => {
-  const x = direction === 'left' ? 40 : direction === 'right' ? -40 : 0
-  const y = direction === 'up' ? 40 : direction === 'down' ? -40 : 0
-
-  return {
-    hidden: { opacity: 0, x, y },
-    show: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      transition: {
-        type: 'tween',
-        duration: 1.2,
-        delay,
-        ease: [0.25, 0.25, 0.25, 0.75],
-      },
+// Creates a blur-to-clear fade animation variant for Framer Motion
+export const fadeIn = (delay = 0) => ({
+  hidden: {
+    opacity: 0,
+    filter: 'blur(4px)',
+  },
+  show: {
+    opacity: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 1.6,
+      delay,
+      ease: [0.33, 1, 0.68, 1],
     },
-    exit: {
-      opacity: 0,
-      x,
-      y,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0.25, 0.75],
-      },
+  },
+  exit: {
+    opacity: 0,
+    filter: 'blur(6px)',
+    transition: {
+      duration: 0.8,
+      ease: [0.33, 1, 0.68, 1],
     },
-  }
-}
+  },
+})
 
+// Creates a smooth zoom-in animation variant for Framer Motion
 export const zoomIn = (delay = 0) => ({
   hidden: {
     opacity: 0,

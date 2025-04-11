@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { useMagicSound } from '@/hooks/useMagicSound'
 import CrystalBall, { CrystalBallProps } from '../ui/CrystalBall'
 
+// Define the type of props
 type AskButtonProps = {
   onClick: () => void
 } & CrystalBallProps
@@ -12,10 +13,16 @@ export default function AskButton({
   label = 'Ask',
   size = 96,
   gradientColor = 'bg-gradient-to-br from-purple-300 via-indigo-500 to-purple-800',
+  loading,
 }: AskButtonProps) {
+  const { play } = useMagicSound()
+
   return (
     <div
-      onClick={onClick}
+      onClick={() => {
+        play()
+        onClick()
+      }}
       className={clsx(
         'relative mt-10 flex cursor-pointer items-center justify-center',
         'transition-transform duration-300 hover:scale-105',
@@ -23,7 +30,7 @@ export default function AskButton({
       )}
       style={{ width: size, height: size }}
     >
-      <CrystalBall label={label} size={size} gradientColor={gradientColor} />
+      <CrystalBall label={label} size={size} gradientColor={gradientColor} loading={loading} />
     </div>
   )
 }
