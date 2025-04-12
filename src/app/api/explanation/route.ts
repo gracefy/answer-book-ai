@@ -4,19 +4,22 @@ import { ApiResponse } from '@/types/api'
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    const { question } = await req.json()
+    const { question, answer } = await req.json()
 
     // Validate the question
-    if (!question || question.trim() === '') {
+    if (!question?.trim() || !answer?.trim()) {
       const response: ApiResponse<null> = {
         success: false,
-        error: 'No question provided',
+        error: 'Missing question or answer',
       }
       return Response.json(response, { status: 400 })
     }
 
+    const userPrompt = `Question: ${question}\nAnswer: ${answer}`
+    const systemPrompt = prompts.oracle.longPrompt
+
     // Get the answer from the AI
-    const result = await getAnswerFromAI(question, prompts.oracle.shortPrompt)
+    const result = await getAnswerFromAI(userPrompt, systemPrompt)
 
     const response: ApiResponse<string> = {
       success: true,
@@ -25,7 +28,8 @@ export async function POST(req: Request): Promise<Response> {
 
     return Response.json(response)
   } catch (error) {
-    console.error('Error in /api/answer:', error)
+    console.error('Error in /api/explanation:', error)
+
     const response: ApiResponse<null> = {
       success: false,
       error: 'Internal Server Error',

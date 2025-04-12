@@ -5,7 +5,7 @@ import AskSection from '@/components/AskSection/AskSection'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[url('/stars.jpg')] bg-cover bg-center">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[url('/images/stars.jpg')] bg-cover bg-center">
       {/* <div className="absolute inset-0 bg-black/60 z-0" /> */}\
       <div className="absolute inset-0 z-0">
         <VideoBackground />

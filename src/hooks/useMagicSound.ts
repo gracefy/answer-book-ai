@@ -1,49 +1,34 @@
 import { useRef } from 'react'
 
-export function useMagicSound(
-  path: string = '/sounds/magic.mp3',
-  fadeTime = 1000,
-  duration = 3000
-) {
+/**
+ * Custom hook to play a sound effect.
+ * Prevents overlapping by ensuring only one instance plays at a time.
+ *
+ * -path: Path to the audio file (default: /sounds/magic.mp3)
+ */
+export function useMagicSound(path: string = '/sounds/magic.mp3') {
   const isPlayingRef = useRef(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const play = () => {
+    // If a sound is already playing, do nothing
     if (isPlayingRef.current) return
 
-    // Initialize audio if not already done
-    audioRef.current = new Audio(path)
-    const audio = audioRef.current
-    audio.volume = 0
+    // Create a new Audio instance
+    const audio = new Audio(path)
+    audioRef.current = audio
     isPlayingRef.current = true
-    audio.play()
 
-    // Fade in
-    const fadeIn = setInterval(() => {
-      if (audio.volume < 1) {
-        audio.volume = Math.min(audio.volume + 0.05, 1) // Raise volume to max by 0.1 each time
-      } else {
-        clearInterval(fadeIn)
-      }
-    }, fadeTime / 20) // Raise volume every 100ms
-
-    // Fade out before end
-    setTimeout(() => {
-      const fadeOut = setInterval(() => {
-        if (audio.volume > 0.1) {
-          audio.volume = Math.max(audio.volume - 0.05, 0) // Lower volume to 0 by 0.1 each time
-        } else {
-          clearInterval(fadeOut)
-        }
-      }, fadeTime / 20) // Lower volume every 100ms
-    }, duration - fadeTime) // Start fading out after 2 seconds
-
-    // Reset lock after 3 seconds
-    // This is to prevent the sound from playing again before it ends
-    // You can adjust this timeout based on the length of your sound
-    setTimeout(() => {
+    // Play the sound
+    audio.play().catch((err) => {
+      console.warn('Unable to play sound:', err)
       isPlayingRef.current = false
-    }, duration)
+    })
+
+    // Reset play lock when the sound ends
+    audio.addEventListener('ended', () => {
+      isPlayingRef.current = false
+    })
   }
 
   return { play }

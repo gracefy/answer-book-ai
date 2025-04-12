@@ -26,3 +26,51 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-1px);
+  }
+  80% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow:
+      0 0 8px #ebd3f850,
+      0 0 16px #ebd3f830;
+  }
+  50% {
+    box-shadow:
+      0 0 12px #ebd3f880,
+      0 0 24px #ebd3f840;
+  }
+  100% {
+    box-shadow:
+      0 0 8px #ebd3f850,
+      0 0 16px #ebd3f830;
+  }
+}

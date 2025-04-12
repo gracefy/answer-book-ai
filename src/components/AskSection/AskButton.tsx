@@ -1,32 +1,33 @@
 'use client'
 import clsx from 'clsx'
-import { useMagicSound } from '@/hooks/useMagicSound'
 import CrystalBall, { CrystalBallProps } from '../ui/CrystalBall'
 
-// Define the type of props
+// Props for the AskButton component
+// It extends CrystalBallProps and adds an onClick function
 type AskButtonProps = {
   onClick: () => void
 } & CrystalBallProps
 
+/**
+ * AskButton — a button that triggers a question to the AI
+ * Props:
+ * - onClick: function to call when the button is clicked
+ * - label/size/gradientColor/loading: props for the CrystalBall component
+ */
 export default function AskButton({
   onClick,
   label = 'Ask',
   size = 96,
-  gradientColor = 'bg-gradient-to-br from-purple-300 via-indigo-500 to-purple-800',
+  gradientColor = 'from-purple-300 via-indigo-500 to-purple-800',
   loading,
 }: AskButtonProps) {
-  const { play } = useMagicSound()
-
   return (
     <div
-      onClick={() => {
-        play()
-        onClick()
-      }}
+      onClick={onClick}
       className={clsx(
         'relative mt-10 flex cursor-pointer items-center justify-center',
         'transition-transform duration-300 hover:scale-105',
-        'text-indigo-100/40 hover:text-white/80'
+        'text-[#dcd6ff60] hover:text-[#dcd6ff]'
       )}
       style={{ width: size, height: size }}
     >
