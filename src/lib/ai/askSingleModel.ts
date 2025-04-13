@@ -46,7 +46,7 @@ export async function askSingleModel(
       }),
     })
 
-    // Step 1: Check if HTTP failed first
+    // Check if HTTP failed
     if (!res.ok) {
       const errorData = await res.json()
       console.error('API error:', errorData)
@@ -56,7 +56,7 @@ export async function askSingleModel(
       }
     }
 
-    // Step 2: Then safely parse JSON and check logical errors inside
+    // Parse JSON and check logical errors inside
     const data = await res.json()
 
     if (data.error) {

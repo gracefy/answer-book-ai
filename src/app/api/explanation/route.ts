@@ -6,7 +6,7 @@ export async function POST(req: Request): Promise<Response> {
   try {
     const { lastQuestion, answer } = await req.json()
 
-    // Validate the question
+    // Reject if either question or answer is missing
     if (!lastQuestion?.trim() || !answer?.trim()) {
       const response: ApiResponse<null> = {
         success: false,
@@ -15,12 +15,14 @@ export async function POST(req: Request): Promise<Response> {
       return Response.json(response, { status: 400 })
     }
 
+    // Format the user input for contextual explanation
     const userPrompt = `Question: ${lastQuestion}\nAnswer: ${answer}`
     const systemPrompt = prompts.oracle.longPrompt
 
-    // Get the answer from the AI
+    // Request a deeper explanation based on previous answer and original question
     const result = await askWithFallback(userPrompt, systemPrompt)
 
+    // Return the expanded explanation
     const response: ApiResponse<string> = {
       success: true,
       data: result.data,
@@ -30,6 +32,7 @@ export async function POST(req: Request): Promise<Response> {
   } catch (error) {
     console.error('Error in /api/explanation:', error)
 
+    // Return a generic error response
     const response: ApiResponse<null> = {
       success: false,
       error: 'Internal Server Error',

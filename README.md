@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AnswerBook
+
+A minimalist, symbolic Q&A interface powered by AI.  
+Built as a learning project to explore React architecture, state management, and third-party model integration.
+
+## Features
+
+- Short symbolic answers, followed by expanded poetic explanations
+- Auto-replies in the same language as the question
+- Model fallback system (retry with multiple free models on failure or rate limit)
+- Crystal ball ask button with animation
+- Input error feedback with subtle shake animation
+- Typewriter effect for long-form explanations
+- Responsive layout and themed background
+
+## Tech Stack
+
+- Next.js + TypeScript + TailwindCSS
+- OpenRouter API for multi-model access
+- Custom React hooks (`useAskFlow`, `useAnswerFlow`) for clean logic separation
+- Framer Motion for transitions and subtle UI animations
+
+## Models Used
+
+Fallback order includes:
+
+- `deepseek/deepseek-chat-v3-0324` (strong reasoning, limited quota)
+- `openai/gpt-4o-mini` (stable, accurate)
+- `deepseek/deepseek-r1` (lightweight fallback)
+- `google/gemini-2.0-flash-exp`
+- `google/gemini-2.5-pro-exp-03-25`
+
+> Note: Model usage is subject to daily free limits via OpenRouter.
+
+## Development Notes
+
+This is an MVP built with focus on clean component design, UI feedback, and prompt-to-response architecture.  
+The goal is to gradually expand features while keeping the experience minimal and focused.
+
+## TODO
+
+- Add prompt/response history
+- Deploy model usage logging (for debugging fallback behavior)
+- Support user-defined characters / personas
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# clone the repo
+git clone https://github.com/gracefy/answer-book-ai.git
+
+# install dependencies
+npm install
+
+# set your in .env.local
+OPENROUTER_API_KEY=your-api-key-here
+
+# start the dev server
+npm dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

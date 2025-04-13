@@ -2,25 +2,49 @@ import { useState } from 'react'
 import { ApiResponse } from '@/types/api'
 import { useMagicSound } from '@/hooks/useMagicSound'
 
+/**
+ * useAskFlow — manages the flow of asking questions and receiving short answers
+ *
+ * Handles:
+ * - Question input state
+ * - Answer output state
+ * - Loading state during answer generation
+ * - Input error (e.g. empty question)
+ * - Error animation trigger (via key change)
+ *
+ * Returns:
+ * - question: current input string
+ * - setQuestion: updates the question input
+ * - answer: short AI-generated answer
+ * - lastQuestion: snapshot of submitted question (used for explanation)
+ * - loadingAnswer: whether an answer is being fetched
+ * - inputError: true if the input is empty or invalid
+ * - errorKey: toggled to retrigger animations
+ * - getAnswer: async function to call /api/answer
+ * - clearInputError: resets the inputError state
+ */
+
 export function useAskFlow() {
-  const magic = useMagicSound()
-  const error = useMagicSound('/sounds/error.mp3')
+  const magicSound = useMagicSound()
+  const errorSound = useMagicSound('/sounds/error.mp3')
 
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [lastQuestion, setLastQuestion] = useState('')
   const [loadingAnswer, setLoadingAnswer] = useState(false)
   const [inputError, setInputError] = useState(false)
+  const [errorKey, setErrorKey] = useState(0)
 
   const getAnswer = async () => {
     if (!question.trim()) {
       setInputError(true)
-      error.play()
+      setErrorKey((prev) => (prev === 0 ? 1 : 0))
+      errorSound.play()
       return
     }
 
     setInputError(false)
-    magic.play()
+    magicSound.play()
     setLoadingAnswer(true)
 
     setLastQuestion(question)
@@ -62,6 +86,7 @@ export function useAskFlow() {
     lastQuestion,
     loadingAnswer,
     inputError,
+    errorKey,
     getAnswer,
     clearInputError,
   }

@@ -1,9 +1,9 @@
 'use Cleint'
+import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import '@/app/globals.css'
-import { motion } from 'framer-motion'
 
-// // Props used by the AskInput component
+// Props for the AskInput component
 type AskInputProps = {
   value: string
   inputError?: boolean
@@ -12,15 +12,8 @@ type AskInputProps = {
   clearError: () => void
 }
 
-/**
- * AskInput — a text input for asking questions
- * Props:
- * - value: current input value
- * - inputError: whether the input is in error state
- * - errorKey: used to trigger animation on error
- * - onChange: function to handle input changes
- * - clearError: function to clear the error state
- */
+// A stylized input field for user questions
+// Includes animated error feedback (shake + light sweep) and glowing focus state
 export default function AskInput({
   value,
   inputError,

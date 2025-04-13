@@ -1,7 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-import { ApiResponse } from '@/types/api'
-
+/**
+ * useAnswerFlow — manages the flow of expanded explanation logic
+ *
+ * Handles:
+ * - Explanation text (fetched from the /api/explanation endpoint)
+ * - Loading state while explanation is being retrieved
+ * - Expansion state (whether the explanation is shown or hidden)
+ *
+ * Returns:
+ * - explanation: the AI-generated expanded explanation
+ * - loadingExplanation: loading state while fetching explanation
+ * - expanded: whether the explanation is currently shown
+ * - setExpanded: manually control the expanded state
+ * - setExplanation: allows manual override or reset
+ * - getExplanation: async function to fetch explanation from server
+ */
 export function useAnswerFlow() {
   const [explanation, setExplanation] = useState('')
   const [loadingExplanation, setLoadingExplanation] = useState(false)

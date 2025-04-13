@@ -1,3 +1,8 @@
+/**
+ * Prompt configuration for the "Oracle" persona.
+ * - shortPrompt: Generates a symbolic, poetic one-liner.
+ * - longPrompt: Expands the original prophecy with consistent tone and imagery.
+ */
 export const oraclePrompt = {
   label: 'The Oracle',
   color: 'from-purple-300 via-indigo-500 to-purple-800',

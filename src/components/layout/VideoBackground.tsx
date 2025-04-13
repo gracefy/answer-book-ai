@@ -1,3 +1,4 @@
+// // Renders a muted, looping fullscreen background video for visual effect.
 export default function VideoBackground() {
   return (
     <video autoPlay loop muted playsInline className="h-full w-full object-cover">

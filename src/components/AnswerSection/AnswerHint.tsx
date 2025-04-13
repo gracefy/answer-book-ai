@@ -1,11 +1,13 @@
 'use client'
 import clsx from 'clsx'
 
+// Props for the floating answer hint
 type AnswerHintProps = {
   expanded: boolean
 }
 
-// Display a hint depending on the state of explanation
+// Display a subtle hover hint below the answer
+// Changes text depending on whether the explanation is expanded
 export default function AnswerHint({ expanded }: AnswerHintProps) {
   return (
     <span
@@ -14,7 +16,7 @@ export default function AnswerHint({ expanded }: AnswerHintProps) {
         'opacity-0 transition-opacity duration-300 group-hover:opacity-100'
       )}
     >
-      {expanded ? 'Click to close' : 'Click to summon the truth'}
+      {expanded ? 'Hide explanation' : 'Click to unveil more'}
     </span>
   )
 }

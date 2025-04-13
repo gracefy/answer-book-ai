@@ -1,3 +1,8 @@
+/**
+ * Prompt configuration for the "Therapist" persona.
+ * - shortPrompt: Generates a warm, empathetic one-liner.
+ * - longPrompt: Expands the original response with consistent tone and imagery.
+ */
 export const therapistPrompt = {
   label: 'The Therapist',
   color: 'from-blue-200 via-cyan-300 to-teal-400',

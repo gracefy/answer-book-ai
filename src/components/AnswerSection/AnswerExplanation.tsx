@@ -1,9 +1,11 @@
 'use client'
 import { motion } from 'framer-motion'
 import { Typewriter } from 'react-simple-typewriter'
-import clsx from 'clsx'
 import { fadeIn } from '@/lib/ui/animations'
+import '@/app/globals.css'
+import clsx from 'clsx'
 
+// Props for displaying the answer explanation
 export type AnswerExplanationProps = {
   loadingExplanation: boolean
   explanation: string
@@ -15,26 +17,38 @@ export default function AnswerExplanation({
   explanation,
   expanded,
 }: AnswerExplanationProps) {
-  if (!loadingExplanation && !explanation) return null
+  // If collapsed, hide the explanation
   if (!expanded) return null
 
+  // If not loading and no explanation yet, don't render anything
+  if (!loadingExplanation && !explanation) return null
+
   return (
-    <motion.p
+    <motion.div
       className={clsx(
         'mt-3 text-center text-base leading-relaxed text-indigo-200/90',
         'mx-auto max-w-prose px-4 whitespace-pre-line',
         'md:text-lg'
       )}
-      variants={fadeIn(0.5)}
+      layout
+      variants={fadeIn()}
       initial="hidden"
       animate="show"
       exit="exit"
     >
       {loadingExplanation ? (
-        'Summoning...'
+        // Show animated placeholder while loading
+        <motion.div
+          className={clsx(
+            'mx-auto h-60 w-100 rounded-full bg-gradient-to-br',
+            'from-amber-300/80 via-pink-200/70 to-purple-200/80',
+            'animate-[breath_2s_ease-in-out_infinite] opacity-80 blur-3xl'
+          )}
+        />
       ) : (
+        // Show explanation with typewriter effect
         <Typewriter words={[explanation]} typeSpeed={50} cursor cursorStyle="_" />
       )}
-    </motion.p>
+    </motion.div>
   )
 }

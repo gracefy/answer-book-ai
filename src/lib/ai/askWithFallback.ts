@@ -15,11 +15,11 @@ export async function askWithFallback(
   for (const model of fallbackList) {
     const result = await askSingleModel(question, prompt, model)
     if (result.success) {
-      console.log(`\n✅ ${model} answered successfully.\n`)
+      console.log(`\n ${model} answered successfully.`)
       return result
     }
 
-    console.warn(`\n⚠️ ${model} failed, trying next..., ${result.error}\n`)
+    console.warn(`\n ${model} failed, trying next..., ${result.error}`)
   }
 
   return { success: false, error: 'All models failed to respond.' }

@@ -1,12 +1,17 @@
 import { oraclePrompt } from './oracle'
 import { therapistPrompt } from './therapist'
 
-// Build prompts for different personas
-// Each persona contains:
-// - label: Display name
-// - color: Gradient color used for UI theme
-// - shortPrompt: Used for the first, short response
-// - longPrompt: Used for expanded explanations when user clicks to reveal more
+/**
+ * Mapping of character personas to their corresponding prompt configurations.
+ *
+ * Each entry includes:
+ * - label: Display name for UI (e.g. "The Oracle")
+ * - color: Gradient class for themed styling
+ * - shortPrompt: System prompt for generating short initial responses
+ * - longPrompt: System prompt for expanded follow-up explanations
+ *
+ * Used in prompt selection and to control AI behavior.
+ */
 export const prompts = {
   oracle: oraclePrompt,
   therapist: therapistPrompt,

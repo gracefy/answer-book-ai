@@ -19,7 +19,7 @@ const garamond = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'Book of Answers',
+  title: 'AnswerBook',
   description: 'Ask a question, get an answer.',
 }
 

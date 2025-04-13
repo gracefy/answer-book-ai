@@ -1,7 +1,10 @@
 'use client'
+import { fadeIn } from '@/lib/ui/animations'
+import { AnimatePresence, motion } from 'framer-motion'
 import AnswerDisplay from './AnswerDisplay'
 import AnswerExplanation from './AnswerExplanation'
 
+// Props used to render the answer block and its expanded explanation
 type AnswerSectionProps = {
   answer: string
   expanded: boolean
@@ -10,6 +13,7 @@ type AnswerSectionProps = {
   onClick: () => void
 }
 
+// Renders the animated section that displays the answer and its optional explanation
 export default function AnswerSection({
   answer,
   expanded,
@@ -18,14 +22,25 @@ export default function AnswerSection({
   onClick,
 }: AnswerSectionProps) {
   return (
-    <section className="mt-10 w-full text-center">
-      <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
+    <AnimatePresence mode="wait">
+      <motion.section
+        layout
+        variants={fadeIn()}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        className="mt-10 w-full text-center"
+      >
+        {/* The clickable answer text */}
+        <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
 
-      <AnswerExplanation
-        loadingExplanation={loadingExplanation}
-        explanation={explanation}
-        expanded={expanded}
-      />
-    </section>
+        {/* The explanation section, conditionally rendered and animated */}
+        <AnswerExplanation
+          loadingExplanation={loadingExplanation}
+          explanation={explanation}
+          expanded={expanded}
+        />
+      </motion.section>
+    </AnimatePresence>
   )
 }
