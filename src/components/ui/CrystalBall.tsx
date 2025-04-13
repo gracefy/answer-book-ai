@@ -7,7 +7,7 @@ export type CrystalBallProps = {
   label?: string
   size?: number
   gradientColor?: string
-  loading?: boolean
+  loadingAnswer?: boolean
 }
 
 /**
@@ -19,12 +19,17 @@ export type CrystalBallProps = {
  * - loading: speeds up spin when true
  */
 
-export default function CrystalBall({ label, size, gradientColor, loading }: CrystalBallProps) {
+export default function CrystalBall({
+  label,
+  size,
+  gradientColor,
+  loadingAnswer,
+}: CrystalBallProps) {
   return (
     <>
       {/* Animated Crystal Ball */}
       <motion.div
-        key={loading ? 'fast' : 'slow'}
+        key={loadingAnswer ? 'fast' : 'slow'}
         className={clsx(
           'absolute inset-0 rounded-full border-4 border-white/20 bg-gradient-to-br',
           'shadow-[inset_4px_4px_10px_rgba(255,255,255,0.2),0_8px_20px_rgba(0,0,0,0.4)]',
@@ -32,7 +37,7 @@ export default function CrystalBall({ label, size, gradientColor, loading }: Cry
           gradientColor
         )}
         animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: loading ? 1 : 15, ease: 'linear' }}
+        transition={{ repeat: Infinity, duration: loadingAnswer ? 1 : 15, ease: 'linear' }}
         style={{ width: size, height: size }}
       >
         {/* pulse Background */}

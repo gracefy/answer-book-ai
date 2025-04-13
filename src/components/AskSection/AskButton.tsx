@@ -19,7 +19,7 @@ export default function AskButton({
   label = 'Ask',
   size = 96,
   gradientColor = 'from-purple-300 via-indigo-500 to-purple-800',
-  loading,
+  loadingAnswer,
 }: AskButtonProps) {
   return (
     <div
@@ -31,7 +31,12 @@ export default function AskButton({
       )}
       style={{ width: size, height: size }}
     >
-      <CrystalBall label={label} size={size} gradientColor={gradientColor} loading={loading} />
+      <CrystalBall
+        label={label}
+        size={size}
+        gradientColor={gradientColor}
+        loadingAnswer={loadingAnswer}
+      />
     </div>
   )
 }

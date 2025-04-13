@@ -8,7 +8,7 @@ import { ApiResponse } from '@/types/api'
  * @param {string} [model=models.deepseek] - The model to use for the AI response.
  * @returns {Promise<{string }>} - The AI's answer
  */
-export async function getAnswerFromAI(
+export async function askSingleModel(
   question: string,
   prompt: string,
   model: string = models.deepseek_v3

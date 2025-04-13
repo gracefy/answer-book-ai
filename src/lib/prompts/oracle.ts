@@ -1,9 +1,3 @@
-// Build prompts for different personas
-// Each persona contains:
-// - label: Display name
-// - color: Gradient color used for UI theme
-// - shortPrompt: Used for the first, short response
-// - longPrompt: Used for expanded explanations when user clicks to reveal more
 export const oraclePrompt = {
   label: 'The Oracle',
   color: 'from-purple-300 via-indigo-500 to-purple-800',

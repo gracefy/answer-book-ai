@@ -1,4 +1,4 @@
-import { getAnswerFromAI } from '@/lib/ai/openai'
+import { askWithFallback } from '@/lib/ai'
 import { prompts } from '@/lib/prompts'
 import { ApiResponse } from '@/types/api'
 
@@ -16,7 +16,7 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     // Get the answer from the AI
-    const result = await getAnswerFromAI(question, prompts.oracle.shortPrompt)
+    const result = await askWithFallback(question, prompts.oracle.shortPrompt)
 
     const response: ApiResponse<string> = {
       success: true,

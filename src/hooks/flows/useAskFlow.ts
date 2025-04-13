@@ -1,35 +1,30 @@
-'use client'
 import { useState } from 'react'
-import { useMagicSound } from '@/hooks/useMagicSound'
 import { ApiResponse } from '@/types/api'
+import { useMagicSound } from '@/hooks/useMagicSound'
 
-import AskInput from './AskInput'
-import AskButton from './AskButton'
-import AnswerCard from './AnswerCard'
-
-export default function AskSection() {
+export function useAskFlow() {
   const magic = useMagicSound()
   const error = useMagicSound('/sounds/error.mp3')
+
   const [question, setQuestion] = useState('')
-  const [lastQuestion, setLastQuestion] = useState('')
-  const [inputError, setInputError] = useState(false)
-  const [errorKey, setErrorKey] = useState(0)
   const [answer, setAnswer] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [lastQuestion, setLastQuestion] = useState('')
+  const [loadingAnswer, setLoadingAnswer] = useState(false)
+  const [inputError, setInputError] = useState(false)
 
   const getAnswer = async () => {
     if (!question.trim()) {
-      setErrorKey((prev) => (prev === 0 ? 1 : 0))
       setInputError(true)
       error.play()
       return
     }
+
     setInputError(false)
     magic.play()
-    setLoading(true)
+    setLoadingAnswer(true)
 
     setLastQuestion(question)
-    setAnswer('')
+
     try {
       const res = await fetch('/api/answer', {
         method: 'POST',
@@ -52,25 +47,22 @@ export default function AskSection() {
       console.error('Error fetching answer:', error)
       setAnswer('The spirits remain silent.')
     } finally {
-      setLoading(false)
+      setLoadingAnswer(false)
+      setQuestion('')
     }
-    // Reset the question after getting the answer
-    setQuestion('')
+  }
+  const clearInputError = () => {
+    setInputError(false)
   }
 
-  return (
-    <div className="mt-8 flex w-full flex-col items-center gap-4">
-      <AskInput
-        value={question}
-        inputError={inputError}
-        errorKey={errorKey}
-        onChange={setQuestion}
-        clearError={() => setInputError(false)}
-      />
-
-      <AskButton onClick={getAnswer} loading={loading} />
-
-      <AnswerCard answer={answer} question={lastQuestion} />
-    </div>
-  )
+  return {
+    question,
+    setQuestion,
+    answer,
+    lastQuestion,
+    loadingAnswer,
+    inputError,
+    getAnswer,
+    clearInputError,
+  }
 }

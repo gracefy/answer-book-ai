@@ -1,13 +1,13 @@
-import { getAnswerFromAI } from '@/lib/ai/openai'
+import { askWithFallback } from '@/lib/ai'
 import { prompts } from '@/lib/prompts'
 import { ApiResponse } from '@/types/api'
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    const { question, answer } = await req.json()
+    const { lastQuestion, answer } = await req.json()
 
     // Validate the question
-    if (!question?.trim() || !answer?.trim()) {
+    if (!lastQuestion?.trim() || !answer?.trim()) {
       const response: ApiResponse<null> = {
         success: false,
         error: 'Missing question or answer',
@@ -15,11 +15,11 @@ export async function POST(req: Request): Promise<Response> {
       return Response.json(response, { status: 400 })
     }
 
-    const userPrompt = `Question: ${question}\nAnswer: ${answer}`
+    const userPrompt = `Question: ${lastQuestion}\nAnswer: ${answer}`
     const systemPrompt = prompts.oracle.longPrompt
 
     // Get the answer from the AI
-    const result = await getAnswerFromAI(userPrompt, systemPrompt)
+    const result = await askWithFallback(userPrompt, systemPrompt)
 
     const response: ApiResponse<string> = {
       success: true,
