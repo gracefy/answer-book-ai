@@ -50,6 +50,7 @@ export default function AskSection({
           errorKey={errorKey}
           onChange={setQuestion}
           clearError={clearInputError}
+          onClick={onclick}
         />
 
         {/* Faint idle message when nothing is happening */}
