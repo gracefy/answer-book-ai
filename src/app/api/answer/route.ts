@@ -15,6 +15,14 @@ export async function POST(req: Request): Promise<Response> {
       return Response.json(response, { status: 400 })
     }
 
+    if (question.length > 200) {
+      const response: ApiResponse<null> = {
+        success: false,
+        error: 'Invalid question length',
+      }
+      return Response.json(response, { status: 400 })
+    }
+
     // Call the AI with fallback logic to get a short poetic answer
     const result = await askWithFallback(question, prompts.oracle.shortPrompt)
 

@@ -15,6 +15,14 @@ export async function POST(req: Request): Promise<Response> {
       return Response.json(response, { status: 400 })
     }
 
+    if (lastQuestion.length > 200) {
+      const response: ApiResponse<null> = {
+        success: false,
+        error: 'Invalid question length',
+      }
+      return Response.json(response, { status: 400 })
+    }
+
     // Format the user input for contextual explanation
     const userPrompt = `Question: ${lastQuestion}\nAnswer: ${answer}`
     const systemPrompt = prompts.oracle.longPrompt
