@@ -1,4 +1,5 @@
 'use Cleint'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import '@/app/globals.css'
@@ -25,6 +26,7 @@ export default function AskInput({
 }: AskInputProps) {
   const MAX_LENGTH = 120
   const remaining = MAX_LENGTH - value.length
+  const [touched, setTouched] = useState(false)
 
   return (
     // Input wrapper with dynamic key to retrigger animation on error
@@ -52,7 +54,13 @@ export default function AskInput({
             value={value}
             placeholder="What do you seek..."
             onChange={(e) => onChange(e.target.value)}
-            onFocus={() => clearError()}
+            onFocus={() => {
+              clearError()
+              setTouched(true)
+            }}
+            onBlur={() => {
+              setTouched(false)
+            }}
             className={clsx(
               'w-full max-w-lg rounded-md px-4 py-2',
               'bg-purple-200/10 font-mono text-purple-100/70 placeholder-white/50',
@@ -62,18 +70,20 @@ export default function AskInput({
                 : 'border border-transparent focus:animate-[glow_1.5s_ease-in-out_infinite] focus:border-[#dcd6ff80]'
             )}
           />
-          <div
-            className={clsx(
-              'absolute top-full right-4 mt-1 text-sm transition-colors duration-300',
-              remaining <= 5
-                ? 'text-red-400/80'
-                : remaining < 20
-                  ? 'text-amber-300/80'
-                  : 'text-indigo-200/50'
-            )}
-          >
-            {remaining} characters left
-          </div>
+          {touched && (
+            <div
+              className={clsx(
+                'absolute top-full right-4 mt-1 text-sm transition-colors duration-300',
+                remaining <= 5
+                  ? 'text-red-400/80'
+                  : remaining < 20
+                    ? 'text-amber-300/80'
+                    : 'text-indigo-200/50'
+              )}
+            >
+              {remaining} characters left
+            </div>
+          )}
         </div>
       </form>
     </div>
