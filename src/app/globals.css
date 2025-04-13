@@ -1,8 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-serif: var(--font-garamond);
 }
 
 @theme inline {
@@ -10,6 +11,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-garamond);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +25,68 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Smooth horizontal shimmer animation, often used for loading effects. */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Subtle horizontal shake to indicate an error or invalid action. */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-1px);
+  }
+  80% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Soft glowing effect using box-shadow for visual emphasis. */
+@keyframes glow {
+  0% {
+    box-shadow:
+      0 0 8px #ebd3f850,
+      0 0 16px #ebd3f830;
+  }
+  50% {
+    box-shadow:
+      0 0 12px #ebd3f880,
+      0 0 24px #ebd3f840;
+  }
+  100% {
+    box-shadow:
+      0 0 8px #ebd3f850,
+      0 0 16px #ebd3f830;
+  }
+}
+
+/* Gentle breathing effect with scale and opacity changes. */
+@keyframes breath {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
 }
