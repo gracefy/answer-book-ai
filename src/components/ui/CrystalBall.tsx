@@ -12,7 +12,7 @@ type CrystalBallProps = {
 // A rotating animated Crystal Ball used as a visual button
 export default function CrystalBall({ label, gradientColor, loadingAnswer }: CrystalBallProps) {
   return (
-    <>
+    <div className="relative flex h-full w-full items-center justify-center">
       {/* Rotating glowing Ball */}
       <motion.div
         layout
@@ -26,7 +26,6 @@ export default function CrystalBall({ label, gradientColor, loadingAnswer }: Cry
           gradientColor
         )}
       >
-        {/*  Soft glowing background layer */}
         <div
           className={clsx(
             'absolute -inset-2 rounded-full bg-white/50 blur-2xl',
@@ -34,10 +33,11 @@ export default function CrystalBall({ label, gradientColor, loadingAnswer }: Cry
           )}
         />
       </motion.div>
-      {/* Optional static label (e.g. "Ask") */}
+
+      {/* Perfectly centered label */}
       <div className="text-md z-10 text-center font-mono font-bold tracking-wide uppercase select-none">
         {label}
       </div>
-    </>
+    </div>
   )
 }
