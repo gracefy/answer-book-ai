@@ -1,5 +1,4 @@
 'use client'
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { fadeIn } from '@/lib/ui/animations'
 import CrystalBall from '../ui/CrystalBall'
