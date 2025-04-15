@@ -21,21 +21,20 @@ export default function AskButton({
   loadingAnswer,
 }: AskButtonProps) {
   return (
-    <motion.div
-      layout
-      variants={fadeIn()}
-      initial="hidden"
-      animate="show"
-      exit="exit"
+    <div
       onClick={onClick}
-      className={clsx(
-        'relative mt-10 flex cursor-pointer items-center justify-center',
-        'transition-transform duration-300 hover:scale-105',
-        'text-[#dcd6ff60] hover:text-[#dcd6ff]',
-        'h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28'
-      )}
+      className="group mt-10 flex h-20 w-20 items-center justify-center text-indigo-100/50 transition-all duration-300 ease-in-out hover:scale-105 hover:text-indigo-100 md:h-24 md:w-24 lg:h-28 lg:w-28"
     >
-      <CrystalBall label={label} gradientColor={gradientColor} loadingAnswer={loadingAnswer} />
-    </motion.div>
+      <motion.div
+        variants={fadeIn()}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        style={{ willChange: 'transform, opacity' }}
+        className="h-full w-full"
+      >
+        <CrystalBall label={label} gradientColor={gradientColor} loadingAnswer={loadingAnswer} />
+      </motion.div>
+    </div>
   )
 }

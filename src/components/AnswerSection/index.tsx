@@ -22,25 +22,21 @@ export default function AnswerSection({
   onClick,
 }: AnswerSectionProps) {
   return (
-    <AnimatePresence mode="wait">
-      <motion.section
-        layout
-        variants={fadeIn()}
-        initial="hidden"
-        animate="show"
-        exit="exit"
-        className="mt-10 w-full text-center"
-      >
-        {/* The clickable answer text */}
-        <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="mt-10 w-full text-center"
+    >
+      {/* The clickable answer text */}
+      <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
 
-        {/* The explanation section, conditionally rendered and animated */}
-        <AnswerExplanation
-          loadingExplanation={loadingExplanation}
-          explanation={explanation}
-          expanded={expanded}
-        />
-      </motion.section>
-    </AnimatePresence>
+      {/* The explanation section, conditionally rendered and animated */}
+      <AnswerExplanation
+        loadingExplanation={loadingExplanation}
+        explanation={explanation}
+        expanded={expanded}
+      />
+    </motion.section>
   )
 }
