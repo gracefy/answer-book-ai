@@ -31,7 +31,7 @@ export default function Home() {
   useEffect(() => {
     setExplanation('')
     setExpanded(false)
-  }, [answer])
+  }, [answer, setExplanation, setExpanded])
 
   return (
     <main className="relative min-h-screen bg-[url('/images/stars.jpg')] bg-cover bg-center bg-no-repeat">

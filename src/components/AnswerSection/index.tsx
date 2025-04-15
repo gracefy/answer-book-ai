@@ -1,6 +1,5 @@
 'use client'
-import { fadeIn } from '@/lib/ui/animations'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import AnswerDisplay from './AnswerDisplay'
 import AnswerExplanation from './AnswerExplanation'
 
