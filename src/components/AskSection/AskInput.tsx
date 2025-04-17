@@ -80,6 +80,7 @@ export default function AskInput({
               'w-full max-w-lg rounded-md px-4 py-2',
               'bg-purple-200/10 font-mono text-purple-100/70 placeholder-white/50',
               'transition-all duration-500 outline-none',
+              'placeholder:text-sm md:placeholder:text-base',
               inputError
                 ? 'animate-[shake_0.5s_ease-in-out] border-2 border-amber-400/70'
                 : 'border border-transparent focus:animate-[glow_1.5s_ease-in-out_infinite] focus:border-[#dcd6ff80]'
@@ -90,7 +91,7 @@ export default function AskInput({
         <p
           id="error"
           role="alert"
-          className="absolute top-full right-4 mt-1 text-sm text-amber-400/70"
+          className="absolute top-full right-4 mt-1 text-xs text-amber-400/70 md:text-sm"
         >
           {inputError ? 'Invalid input' : ''}
         </p>
@@ -101,7 +102,7 @@ export default function AskInput({
             id="char-count"
             {...(remaining <= 10 ? { 'aria-live': 'polite', 'aria-atomic': 'true' } : {})}
             className={clsx(
-              'absolute top-full right-4 mt-1 text-sm transition-colors duration-300',
+              'absolute top-full right-4 mt-1 text-xs transition-colors duration-300 md:text-sm',
               remaining <= 10
                 ? 'text-red-400/80'
                 : remaining < 20
