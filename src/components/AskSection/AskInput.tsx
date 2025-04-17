@@ -28,6 +28,8 @@ export default function AskInput({
   const remaining = MAX_LENGTH - value.length
   const [touched, setTouched] = useState(false)
 
+  const describedByIds = [inputError && 'error', 'char-count'].filter(Boolean).join(' ')
+
   return (
     // Input wrapper with dynamic key to retrigger animation on error
     <div key={errorKey} className="relative w-full max-w-lg px-4">
@@ -48,14 +50,27 @@ export default function AskInput({
         }}
       >
         <div className="relative w-full max-w-lg px-4">
+          {/* Hidden label for screen readers */}
+          <label htmlFor="ask-input" className="sr-only">
+            Query input
+          </label>
           <input
+            id="ask-input"
+            aria-label="Ask the AI your question"
+            autoFocus
             type="text"
             maxLength={120}
             value={value}
             placeholder="What do you seek..."
-            onChange={(e) => onChange(e.target.value)}
+            aria-invalid={inputError ? 'true' : undefined}
+            aria-describedby={describedByIds}
+            onChange={(e) => {
+              if (inputError) {
+                clearError()
+              }
+              onChange(e.target.value)
+            }}
             onFocus={() => {
-              clearError()
               setTouched(true)
             }}
             onBlur={() => {
@@ -70,21 +85,33 @@ export default function AskInput({
                 : 'border border-transparent focus:animate-[glow_1.5s_ease-in-out_infinite] focus:border-[#dcd6ff80]'
             )}
           />
-          {touched && (
-            <div
-              className={clsx(
-                'absolute top-full right-4 mt-1 text-sm transition-colors duration-300',
-                remaining <= 5
-                  ? 'text-red-400/80'
-                  : remaining < 20
-                    ? 'text-amber-300/80'
-                    : 'text-indigo-200/50'
-              )}
-            >
-              {remaining} characters left
-            </div>
-          )}
         </div>
+
+        <p
+          id="error"
+          role="alert"
+          className="absolute top-full right-4 mt-1 text-sm text-amber-400/70"
+        >
+          {inputError ? 'Invalid input' : ''}
+        </p>
+
+        {/* Character count displayed when input is touched */}
+        {touched && (
+          <div
+            id="char-count"
+            {...(remaining <= 10 ? { 'aria-live': 'polite', 'aria-atomic': 'true' } : {})}
+            className={clsx(
+              'absolute top-full right-4 mt-1 text-sm transition-colors duration-300',
+              remaining <= 10
+                ? 'text-red-400/80'
+                : remaining < 20
+                  ? 'text-amber-300/80'
+                  : 'text-indigo-200/50'
+            )}
+          >
+            {!inputError ? `${remaining} characters left` : ''}
+          </div>
+        )}
       </form>
     </div>
   )

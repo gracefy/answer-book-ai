@@ -4,7 +4,7 @@ export const models = {
   /**
    * DeepSeek V3 — LLM with GPT-4-like reasoning
    * Pros: High reasoning, great for Chinese, metaphor ok
-   * Cons: Free but limited to 50 requests/day
+   * Cons: Slow, sometimes no response
    */
   deepseek_v3: 'deepseek/deepseek-chat-v3-0324:free',
   /**
@@ -38,7 +38,7 @@ export const models = {
 
 /// Fallback order for models
 export const fallbackList = [
-  models.deepseek_v3,
+  // models.deepseek_v3,
   models.openai_gpt4o,
   // models.deepseek_r1,
   // models.gemini_flash_2,

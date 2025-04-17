@@ -1,7 +1,8 @@
 'use client'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import AnswerDisplay from './AnswerDisplay'
 import AnswerExplanation from './AnswerExplanation'
+import { fadeIn } from '@/lib/ui/animations'
 
 // Props used to render the answer block and its expanded explanation
 type AnswerSectionProps = {
@@ -21,21 +22,25 @@ export default function AnswerSection({
   onClick,
 }: AnswerSectionProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="mt-10 w-full text-center"
-    >
-      {/* The clickable answer text */}
-      <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
+    <AnimatePresence mode="wait">
+      <motion.section
+        layout
+        variants={fadeIn()}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        className="mt-10 w-full text-center"
+      >
+        {/* The clickable answer text */}
+        <AnswerDisplay answer={answer} expanded={expanded} onClick={onClick} />
 
-      {/* The explanation section, conditionally rendered and animated */}
-      <AnswerExplanation
-        loadingExplanation={loadingExplanation}
-        explanation={explanation}
-        expanded={expanded}
-      />
-    </motion.section>
+        {/* The explanation section, conditionally rendered and animated */}
+        <AnswerExplanation
+          loadingExplanation={loadingExplanation}
+          explanation={explanation}
+          expanded={expanded}
+        />
+      </motion.section>
+    </AnimatePresence>
   )
 }
