@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion'
 import { fadeIn } from '@/lib/ui/animations'
 import CrystalBall from '../ui/CrystalBall'
+import clsx from 'clsx'
 
 // Props for the AskButton component.
 // Controls appearance and triggers the ask action on click.
@@ -20,9 +21,15 @@ export default function AskButton({
   loadingAnswer,
 }: AskButtonProps) {
   return (
-    <div
+    <button
+      type="button"
+      aria-label="Ask the AI your question"
       onClick={onClick}
-      className="group mt-10 flex h-20 w-20 items-center justify-center text-indigo-100/50 transition-all duration-300 ease-in-out hover:scale-105 hover:text-indigo-100 md:h-24 md:w-24 lg:h-28 lg:w-28"
+      className={clsx(
+        'group r mt-10 flex h-20 w-20 appearance-none border-none bg-transparent p-0',
+        'justify-cente items-center text-indigo-100/50 transition-all duration-300 ease-in-out',
+        'hover:scale-105 hover:text-indigo-100 md:h-24 md:w-24 lg:h-28 lg:w-28'
+      )}
     >
       <motion.div
         variants={fadeIn()}
@@ -34,6 +41,6 @@ export default function AskButton({
       >
         <CrystalBall label={label} gradientColor={gradientColor} loadingAnswer={loadingAnswer} />
       </motion.div>
-    </div>
+    </button>
   )
 }

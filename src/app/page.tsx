@@ -34,7 +34,7 @@ export default function Home() {
   }, [answer, setExplanation, setExpanded])
 
   return (
-    <main className="relative min-h-screen bg-[url('/images/stars.jpg')] bg-cover bg-center bg-no-repeat">
+    <main className="relative min-h-screen">
       {/* Background video layer */}
       <div className="absolute inset-0 z-0">
         <VideoBackground />
