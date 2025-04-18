@@ -28,8 +28,7 @@ export default function AnswerDisplay({ answer, expanded, onClick }: AnswerDispl
             'bg-gradient-to-r from-indigo-200 via-purple-300 to-pink-200',
             'bg-clip-text text-center text-transparent',
             'group relative mt-5 max-w-prose cursor-pointer',
-            'animate-pulse opacity-90 hover:animate-none hover:opacity-100',
-            'text-xl md:text-2xl'
+            'text-lg opacity-90 md:text-2xl'
           )}
           onClick={onClick}
         >
