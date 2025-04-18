@@ -10,12 +10,22 @@ export default function Header() {
         <h1
           className={clsx(
             'bg-gradient-to-r from-[#c9bfff80] via-indigo-100/80 to-[#dcd6ff80] bg-clip-text',
-            'text-center font-mono text-3xl font-bold tracking-[0.2em] text-transparent drop-shadow-lg md:text-5xl'
+            'text-center font-mono text-5xl font-bold tracking-wider text-transparent drop-shadow-lg',
+            'hidden md:block'
           )}
         >
           Focus Your Mind
         </h1>
-        <p className="mb-10 text-center font-mono text-lg leading-relaxed tracking-wider text-purple-200/50 drop-shadow-md md:text-xl">
+        <h1
+          className={clsx(
+            'bg-gradient-to-r from-[#c9bfff80] via-indigo-100/80 to-[#dcd6ff80] bg-clip-text',
+            'text-center font-mono text-3xl font-bold tracking-wider text-transparent drop-shadow-lg',
+            'md:hidden'
+          )}
+        >
+          Focus Mind
+        </h1>
+        <p className="mb-10 text-center font-mono text-base leading-relaxed tracking-wider text-purple-200/50 drop-shadow-md md:text-xl">
           Ask your question
         </p>
       </motion.header>
