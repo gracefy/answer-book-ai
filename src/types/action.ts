@@ -1,5 +1,5 @@
 /**
- * ApiResponse<T> — Generic response format for API endpoints
+ * ActionResult<T> — Generic response format for server/API actions.
  *
  * Structure:
  * - success: whether the API call was successful
@@ -9,7 +9,7 @@
  * Usage:
  * Use this as the return type for server/API responses for consistent client handling.
  */
-export type ApiResponse<T> = {
+export type ActionResult<T> = {
   success: boolean
   data?: T
   error?: string

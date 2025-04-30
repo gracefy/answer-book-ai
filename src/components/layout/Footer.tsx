@@ -1,8 +1,13 @@
-// Footer — displays a subtle poetic message and the current year
-export default function Footer() {
+import clsx from 'clsx'
+
+type FooterProps = {
+  className?: string
+}
+
+export default function Footer({ className }: FooterProps) {
   return (
-    <footer className="w-full p-5 text-center">
-      <p className="mb-3 text-xs text-white/30 transition-colors duration-300 hover:text-white/50 md:text-base">
+    <footer className={clsx('text-center', className)}>
+      <p className="mb-3 text-xs text-indigo-100/40 transition-colors duration-300 hover:text-indigo-100/70 md:text-base">
         A whisper from the stars © {new Date().getFullYear()}
       </p>
     </footer>
