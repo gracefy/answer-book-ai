@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: amswerbook-postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - amswerbook_network
+
+volumes:
+  postgres_data: {}
+
+networks:
+  amswerbook_network: {}
