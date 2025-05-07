@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import '@/app/globals.css'
-import Input from '@/components/ui/Input'
 import CircleButton from '@/components/ui/CircleButton'
 
 type AskFormProps = {
@@ -61,7 +60,7 @@ export default function AskForm({
         </label>
 
         {/* Main input */}
-        <Input
+        <input
           id="question"
           name="question"
           aria-label="Ask the AI your question"
@@ -79,6 +78,9 @@ export default function AskForm({
           }}
           onBlur={() => setTouched(false)}
           className={clsx(
+            'w-full max-w-lg rounded-md px-4 py-2 outline-none',
+            'bg-purple-200/10 font-mono text-purple-100/70 placeholder-white/50',
+            'transition-all duration-500 placeholder:text-sm md:placeholder:text-base',
             error
               ? 'animate-[shake_0.5s_ease-in-out] border-2 border-amber-400/70'
               : 'border border-transparent focus:animate-[glow_1.5s_ease-in-out_infinite] focus:border-[#dcd6ff80]'

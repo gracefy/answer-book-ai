@@ -1,6 +1,6 @@
 import { fallbackList } from './models'
 import { askSingleModel } from './askSingleModel'
-import { ActionResult } from '@/types/action'
+import { Result } from '@/types/result'
 
 /**
  * Fallback function for AI model
@@ -8,10 +8,7 @@ import { ActionResult } from '@/types/action'
  * @param prompt The prompt to use
  * @returns The answer from the AI model
  */
-export async function askWithFallback(
-  question: string,
-  prompt: string
-): Promise<ActionResult<string>> {
+export async function askWithFallback(question: string, prompt: string): Promise<Result<string>> {
   for (const model of fallbackList) {
     const result = await askSingleModel(question, prompt, model)
     if (result.success) {

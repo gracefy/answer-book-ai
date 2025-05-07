@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
+import Nav from '@/components/layouts/Nav'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,7 +35,10 @@ export default function RootLayout({
       <body
         className={`${garamond.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>
+          <Nav />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )

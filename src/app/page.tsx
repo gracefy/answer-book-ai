@@ -1,8 +1,8 @@
 'use client'
 
-import VideoBackground from '@/components/layout/VideoBackground'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import VideoBackground from '@/components/layouts/VideoBackground'
+import Header from '@/components/layouts/Header'
+import Footer from '@/components/layouts/Footer'
 import QnASection from '@/components/sections/QnASection'
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       </div>
 
       {/* Main content layer */}
-      <div className="z-10 flex min-h-screen flex-col items-center justify-center">
+      <div className="z-10 flex flex-1 flex-col items-center justify-center">
         <div className="w-full max-w-2xl p-8">
           <Header />
 

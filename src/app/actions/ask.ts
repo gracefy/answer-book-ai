@@ -1,9 +1,9 @@
 'use server'
-import { ActionResult } from '@/types/action'
+import { Result } from '@/types/result'
 import { askWithFallback } from '@/lib/ai'
 import { prompts } from '@/lib/prompts'
 
-export async function askQuestion(formData: FormData): Promise<ActionResult<string>> {
+export async function askQuestion(formData: FormData): Promise<Result<string>> {
   try {
     const question = formData.get('question')?.toString().trim()
 

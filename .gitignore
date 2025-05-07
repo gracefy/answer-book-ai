@@ -42,5 +42,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignore Prisma engine binaries
-*.node
+# Ignore Prisma files
+**/libquery_engine-*.node

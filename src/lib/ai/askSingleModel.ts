@@ -1,5 +1,5 @@
 import { models } from './models'
-import { ActionResult } from '@/types/action'
+import { Result } from '@/types/result'
 
 /**
  * Fetches an answer from the AI using the OpenRouter API.
@@ -12,7 +12,7 @@ export async function askSingleModel(
   question: string,
   prompt: string,
   model: string = models.deepseek_v3
-): Promise<ActionResult<string>> {
+): Promise<Result<string>> {
   // Check the key for OpenRouter
   if (!process.env.OPENROUTER_API_KEY) {
     return {
