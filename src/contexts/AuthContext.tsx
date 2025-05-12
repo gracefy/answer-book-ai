@@ -1,7 +1,8 @@
 'use client'
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { User } from '@/types/user'
 import { Result } from '@/types/result'
+import { logError } from '@/lib/utils'
 
 // Define the AuthContext type
 type AuthContextType = {
@@ -30,7 +31,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         })
 
         if (!res.ok) {
-          console.error('Failed to fetch /api/auth/user:', res.statusText)
+          logError('Failed to fetch /api/auth/user:', res.statusText)
           setUser(null)
           return
         }
@@ -39,11 +40,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (data.success && data.data) {
           setUser(data.data)
         } else {
-          console.error('Failed to fetch user data:', data.error)
+          logError('Failed to fetch user data:', data.error)
           setUser(null)
         }
       } catch (error) {
-        console.error('AuthProvider: Error fetching user:', error)
+        logError('AuthProvider: Error fetching user:', error)
       } finally {
         setAuthLoading(false)
       }
@@ -70,7 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       setUser(null)
     } catch (error) {
-      console.error('Error logging out:', error)
+      logError('Error logging out:', error)
     }
   }
 

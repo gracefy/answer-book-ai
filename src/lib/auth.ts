@@ -2,6 +2,7 @@
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 import { User } from '@/types/user'
+import { logError } from '@/lib/utils'
 
 export async function getUserFromCookie(): Promise<User | null> {
   try {
@@ -16,24 +17,27 @@ export async function getUserFromCookie(): Promise<User | null> {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string)
 
     if (!isUser(decoded)) {
-      console.error('Invalid token structure', decoded)
+      logError('Invalid token structure', decoded)
       return null
     }
 
     return decoded as User
   } catch (err) {
-    console.error('Invalid token', err)
+    logError('Invalid token', err)
     return null
   }
 }
 
 // Type guard to check if the object is a User
-function isUser(obj: any): obj is User {
+function isUser(obj: unknown): obj is User {
   return (
-    obj &&
     typeof obj === 'object' &&
-    typeof obj.id === 'string' &&
-    typeof obj.email === 'string' &&
-    typeof obj.username === 'string'
+    obj !== null &&
+    'id' in obj &&
+    'email' in obj &&
+    'username' in obj &&
+    typeof (obj as any).id === 'string' &&
+    typeof (obj as any).email === 'string' &&
+    typeof (obj as any).username === 'string'
   )
 }

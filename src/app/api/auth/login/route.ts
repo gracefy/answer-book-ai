@@ -2,20 +2,29 @@ import { NextRequest, NextResponse } from 'next/server'
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
-import { prisma } from '@/db/prisma'
+import { prisma } from '@/lib/db'
 import { Result } from '@/types/result'
 import { User } from '@/types/user'
+import { loginSchema } from '@/lib/validation'
+import { zodErrorToDetails } from '@/lib/utils'
+import { logError } from '@/lib/utils'
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { email, password } = await req.json()
 
+    const result = loginSchema.safeParse({ email, password })
+
     // Validate the input
-    if (!email || !password) {
+    if (!result.success) {
+      const errors = result.error.format()
+      const details = zodErrorToDetails(errors)
+
       return NextResponse.json<Result<null>>(
         {
           success: false,
-          error: 'Email and password required',
+          error: 'Invalid input',
+          details,
         },
         { status: 400 }
       )
@@ -29,7 +38,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     })
 
     // Verify the password
-    const isPasswordValid = user && (await argon2.verify(user.password, password))
+    let isPasswordValid = false
+    if (user) {
+      isPasswordValid = await argon2.verify(user.password, password)
+    }
 
     // If user doesn't exist or password is invalid, return an error
     if (!user || !isPasswordValid) {
@@ -50,14 +62,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Generate a JWT token
     const token = jwt.sign(userInfo, process.env.JWT_SECRET as string, {
-      expiresIn: '1h',
+      expiresIn: '1day',
     })
 
     // Set the token in a cookie
     const cookie = serialize('token', token, {
       httpOnly: true,
       path: '/',
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production', // Set to true in production
     })
@@ -76,7 +88,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     )
   } catch (error) {
-    console.error('Error in /api/auth/login:', error)
+    logError('Error in /api/auth/login:', error)
 
     // Return a generic error response
     return NextResponse.json<Result<null>>(

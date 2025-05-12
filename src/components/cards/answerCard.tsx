@@ -1,7 +1,7 @@
 'use client'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { fadeIn } from '@/lib/utils/animations'
+import { fadeIn } from '@/lib/animations'
 
 // Props for displaying the short answer text
 type AnswerCardProps = {

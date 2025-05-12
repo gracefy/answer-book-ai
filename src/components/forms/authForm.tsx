@@ -1,11 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import clsx from 'clsx'
 import { useAuth } from '@/hooks/useAuth'
-
+import { registerSchema, loginSchema } from '@/lib/validation'
+import { zodErrorToDetails } from '@/lib/utils'
 import FormRow from '../ui/FormRow'
 import GradientButton from '../ui/GradientButton'
+import { logError } from '@/lib/utils'
 
 type AuthFormProps = {
   mode: 'login' | 'register'
@@ -20,17 +22,49 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+
+  const [errors, setErrors] = useState<{
+    email?: string
+    password?: string
+    confirmPassword?: string
+    username?: string
+    general?: string
+  }>({})
   const [loading, setLoading] = useState(false)
+
+  // Reset form fields when mode changes
+  useEffect(() => {
+    setUsername('')
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+    setErrors({})
+  }, [mode])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setErrorMessage('')
+    setErrors({})
     setLoading(true)
 
-    const formData = mode === 'login' ? { email, password } : { email, password, username }
+    // Set up form data
+    const formData =
+      mode === 'login' ? { email, password } : { username, email, password, confirmPassword }
+
+    const schema = mode === 'login' ? loginSchema : registerSchema
+
+    const result = schema.safeParse(formData)
+
+    if (!result.success) {
+      const errors = result.error.format()
+      const details = zodErrorToDetails(errors)
+      setErrors(details)
+
+      setLoading(false)
+      return
+    }
 
     try {
+      // Send request to server
       const res = await fetch(`/api/auth/${mode}`, {
         method: 'POST',
         headers: {
@@ -38,23 +72,31 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
         },
         body: JSON.stringify(formData),
       })
+      const result = await res.json()
 
-      if (!res.ok) {
-        const data = await res.json()
-        setErrorMessage(data.message || 'Something went wrong')
+      // Handle response
+      if (!res.ok || !result.success) {
+        logError('Error:', result.error)
+        // Handle errors
+        if (result.details) {
+          setErrors((prev) => ({
+            ...prev,
+            ...result.details,
+          }))
+        } else {
+          setErrors({ general: result.error || 'Something went wrong' })
+        }
+
         setLoading(false)
         return
       }
 
-      const result = await res.json()
-      login(result.data)
-
-      onClose?.()
-
-      router.push('/')
+      login(result.data) // Successful login or registration
+      onClose?.() // Close modal if provided
+      router.push('/') // Redirect to home page
     } catch (error) {
-      console.error('Error:', error)
-      setErrorMessage('Failed to connect to server.')
+      logError('Error:', error)
+      setErrors({ general: 'Failed to connect to server.' })
     } finally {
       setLoading(false)
     }
@@ -63,16 +105,32 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto flex w-full max-w-sm flex-col gap-4 rounded-lg bg-white p-6 shadow-md"
+      className="mx-auto flex w-full flex-col gap-4 rounded-lg bg-white p-6 shadow-md"
     >
+      {mode === 'login' && (
+        <div className="mb-2 text-right">
+          <button
+            type="button"
+            onClick={() => {
+              setEmail('test@example.com')
+              setPassword('test1234')
+            }}
+            className="text-sm text-indigo-400 hover:underline"
+          >
+            Use test account
+          </button>
+        </div>
+      )}
+
       {mode === 'register' && (
         <FormRow
           type="text"
           label="Username"
-          placeholder="Uaername"
+          placeholder="3-10 chars, letters/numbers/_"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          error={errorMessage !== ''}
+          error={!!errors.username}
+          errorMessage={errors.username}
           required
         />
       )}
@@ -80,20 +138,22 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
       <FormRow
         type="email"
         label="Email"
-        placeholder="Email"
+        placeholder={mode === 'login' ? 'Email' : 'Valid email required'}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        error={errorMessage !== ''}
+        error={!!errors.email}
+        errorMessage={errors.email}
         required
       />
 
       <FormRow
         type="password"
         label="Password"
-        placeholder="Password"
+        placeholder={mode === 'login' ? 'Password' : '8-20 chars, letters/numbers'}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        error={errorMessage !== ''}
+        error={!!errors.password}
+        errorMessage={errors.password}
         required
       />
 
@@ -104,7 +164,8 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
           placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          error={errorMessage !== ''}
+          error={!!errors.confirmPassword}
+          errorMessage={errors.confirmPassword}
           required
         />
       )}
@@ -112,14 +173,14 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
       {/* Error message */}
       <p
         className={clsx(
-          'absolute top-full right-4 mt-1 text-sm transition-opacity duration-300',
-          'text-amber-300/80',
-          errorMessage ? 'opacity-100' : 'invisible opacity-0'
+          'mt-1 text-sm transition-opacity duration-300',
+          'text-center text-red-400',
+          errors.general ? 'opacity-100' : 'invisible opacity-0'
         )}
         id="input-error"
         role="alert"
       >
-        {errorMessage}
+        {errors.general}
       </p>
 
       <GradientButton type="submit" className="w-full" disabled={loading}>

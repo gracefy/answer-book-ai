@@ -30,7 +30,10 @@ export default function Nav() {
       <nav className="fixed top-0 left-0 z-20 w-full px-10 py-5">
         <div className="container mx-auto flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="font-mono text-lg font-bold text-indigo-50 lg:text-xl">
+          <Link
+            href="/"
+            className="font-mono text-lg font-bold text-indigo-50 hover:text-shadow-indigo-400 hover:text-shadow-md lg:text-xl"
+          >
             AnswerBook
           </Link>
 

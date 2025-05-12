@@ -1,7 +1,7 @@
 'use client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import AuthForm from '@/components/forms/authForm'
+import AuthForm from '@/components/forms/AuthForm'
 
 type Props = {
   isOpen: boolean
@@ -39,7 +39,7 @@ export default function AuthModal({ isOpen, initialMode, onClose }: Props) {
 
           {/* modal */}
           <motion.div
-            className="fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white p-6 font-mono shadow-lg"
+            className="fixed top-1/2 left-1/2 z-50 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded bg-white p-6 font-mono shadow-lg md:w-full"
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}

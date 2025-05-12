@@ -2,6 +2,7 @@
 import { Result } from '@/types/result'
 import { askWithFallback } from '@/lib/ai'
 import { prompts } from '@/lib/prompts'
+import { logError } from '@/lib/utils'
 
 export async function askQuestion(formData: FormData): Promise<Result<string>> {
   try {
@@ -31,7 +32,7 @@ export async function askQuestion(formData: FormData): Promise<Result<string>> {
       data: result.data,
     }
   } catch (error) {
-    console.error('Error getting answer:', error)
+    logError('Error getting answer:', error)
 
     // Return a generic error response
     return {

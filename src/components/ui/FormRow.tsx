@@ -5,31 +5,42 @@ import clsx from 'clsx'
 type FormRowProps = {
   type: 'text' | 'email' | 'password'
   label: string
-  classname?: string
+  className?: string
   error?: boolean
+  errorMessage?: string
 } & React.InputHTMLAttributes<HTMLInputElement>
 
-export default function FormRow({ type, label, classname, error, ...props }: FormRowProps) {
+export default function FormRow({
+  type,
+  label,
+  className,
+  error,
+  errorMessage,
+  ...props
+}: FormRowProps) {
   const [show, setShow] = useState(false)
 
   return (
-    <div className="grid grid-cols-10 items-center gap-2">
-      <label className="col-span-10 text-sm font-medium text-gray-500 md:col-span-3">{label}</label>
+    <div className="grid w-full grid-cols-10 items-center gap-2">
+      <label className="col-span-10 text-sm font-semibold text-gray-500 md:col-span-3">
+        {label}
+      </label>
 
       {type === 'password' ? (
         <div className="relative col-span-10 md:col-span-7">
           <input
             type={show ? 'text' : 'password'}
             className={clsx(
-              'rounded-md border bg-zinc-100 px-3 py-2 outline-none',
-              'text-black placeholder-gray-400 placeholder:text-sm',
+              'w-full rounded-md border bg-zinc-100 px-3 py-2 outline-none',
+              'col-span-10 text-black placeholder-gray-400 placeholder:text-xs md:col-span-7',
               error
-                ? 'border-amber-400 focus:ring-2 focus:ring-amber-400'
+                ? 'border-red-400 focus:ring-2 focus:ring-red-400'
                 : 'border-transparent focus:border-indigo-400',
-              classname
+              className
             )}
             {...props}
           />
+
           <button
             type="button"
             onClick={() => setShow((prev) => !prev)}
@@ -42,15 +53,19 @@ export default function FormRow({ type, label, classname, error, ...props }: For
       ) : (
         <input
           className={clsx(
-            'col-span-10 w-full rounded-md border px-3 py-2 outline-none',
-            'bg-zinc-100 text-black placeholder-gray-400 placeholder:text-sm md:col-span-7',
+            'w-full rounded-md border bg-zinc-100 px-3 py-2 outline-none',
+            'col-span-10 text-black placeholder-gray-400 placeholder:text-xs md:col-span-7',
             error
-              ? 'border-amber-400 focus:ring-2 focus:ring-amber-400'
+              ? 'border-red-400 focus:ring-2 focus:ring-red-400'
               : 'border-transparent focus:border-indigo-400',
-            classname
+            className
           )}
           {...props}
         />
+      )}
+
+      {errorMessage && (
+        <p className="col-span-10 mb-3 text-right text-sm text-red-400">{errorMessage}</p>
       )}
     </div>
   )

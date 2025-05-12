@@ -12,7 +12,7 @@ export async function askWithFallback(question: string, prompt: string): Promise
   for (const model of fallbackList) {
     const result = await askSingleModel(question, prompt, model)
     if (result.success) {
-      console.log(`\n ${model} answered successfully.`)
+      // console.log(`\n ${model} answered successfully.`)
       return result
     }
 

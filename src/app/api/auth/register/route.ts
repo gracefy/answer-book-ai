@@ -1,21 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/db/prisma'
+import { prisma } from '@/lib/db'
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
 import { Result } from '@/types/result'
 import { User } from '@/types/user'
+import { registerSchema } from '@/lib/validation'
+import { zodErrorToDetails } from '@/lib/utils'
+import { logError } from '@/lib/utils'
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const { email, username, password } = await req.json()
+    const { email, username, password, confirmPassword } = await req.json()
+    const result = registerSchema.safeParse({
+      email,
+      username,
+      password,
+      confirmPassword,
+    })
 
     // Validate the input
-    if (!email || !username || !password) {
+    if (!result.success) {
+      const errors = result.error.format()
+      const details = zodErrorToDetails(errors)
+
       return NextResponse.json<Result<null>>(
         {
           success: false,
-          error: 'Missing required fields',
+          error: 'Invalid input',
+          details,
         },
         { status: 400 }
       )
@@ -56,14 +69,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Generate a JWT token
     const token = jwt.sign(userInfo, process.env.JWT_SECRET as string, {
-      expiresIn: '1h',
+      expiresIn: '1day',
     })
 
     // Set the token in a cookie
     const cookie = serialize('token', token, {
       httpOnly: true,
       path: '/',
-      maxAge: 60 * 60, // 1 hour
+      maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production', // Set to true in production
     })
@@ -82,7 +95,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     )
   } catch (error) {
-    console.error('Error in /api/auth/register:', error)
+    logError('Error in /api/auth/register:', error)
 
     // Return a generic error response
     return NextResponse.json<Result<null>>(

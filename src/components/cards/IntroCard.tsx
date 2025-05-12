@@ -1,8 +1,18 @@
 import clsx from 'clsx'
 
-export default function Header() {
+type IntroCardProps = {
+  title?: string
+  mobileTitle?: string
+  subtitle?: string
+}
+
+export default function IntroCard({
+  title = 'Focus Your Mind',
+  mobileTitle = 'Focus Mind',
+  subtitle = 'Ask your question',
+}: IntroCardProps) {
   return (
-    <header className="mb-10 flex flex-col items-center justify-center font-mono">
+    <div className="mb-10 flex flex-col items-center justify-center font-mono">
       <h1
         className={clsx(
           'bg-gradient-to-r from-[#c9bfff80] via-indigo-100/80 to-[#dcd6ff80] bg-clip-text',
@@ -10,7 +20,7 @@ export default function Header() {
           'hidden md:block'
         )}
       >
-        Focus Your Mind
+        {title}
       </h1>
       <h1
         className={clsx(
@@ -19,11 +29,11 @@ export default function Header() {
           'md:hidden'
         )}
       >
-        Focus Mind
+        {mobileTitle}
       </h1>
       <p className="mb-10 text-base leading-relaxed tracking-wider text-purple-200/50 drop-shadow-md md:text-xl">
-        Ask your question
+        {subtitle}
       </p>
-    </header>
+    </div>
   )
 }
