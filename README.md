@@ -1,47 +1,52 @@
 # AnswerBook
 
 A minimalist, symbolic Q&A interface powered by AI.  
-Built as a learning project to explore React architecture, state management, and third-party model integration.
+Built as a learning project to explore modern web development techniques including **Next.js**, **PostgreSQL**, **Docker**, and **AI model integration**.
 
 ## Features
 
-- Short symbolic answers, followed by expanded poetic explanations
-- Auto-replies in the same language as the question
-- Model fallback system (retry with multiple free models on failure or rate limit)
-- Crystal ball ask button with animation
-- Input error feedback with subtle shake animation
-- Typewriter effect for long-form explanations
-- Responsive layout and themed background
+- Symbolic Q&A interface with themed background
+- Seamless fallback across multiple AI models
+- Animated feedback for input errors and response delays
+- User-friendly, mobile-responsive layout
+- Personalized question history: view, search, delete
 
 ## Tech Stack
 
-- Next.js + TypeScript + TailwindCSS
-- OpenRouter API for multi-model access
-- Custom React hooks (`useAskFlow`, `useAnswerFlow`) for clean logic separation
-- Framer Motion for transitions and subtle UI animations
+- **Frontend**: Next.js 15 (App Router) + TypeScript + TailwindCSS + Framer Motion
+- **Backend**: PostgreSQL + Prisma ORM + Server Actions + REST API routes
+- **AI**: OpenRouter API for multi-model integration
+- **DevOps**:
+  - Docker for local PostgreSQL containerization
+  - Railway for production PostgreSQL hosting
+  - Vercel for full-stack Next.js deployment
 
-## Models Used
+## Version History
 
-Fallback order includes:
+### ✅ Version 1.0
 
-- `deepseek/deepseek-chat-v3-0324` (strong reasoning, limited quota)
-- `openai/gpt-4o-mini` (stable, accurate)
-- `deepseek/deepseek-r1` (lightweight fallback)
-- `google/gemini-2.0-flash-exp`
-- `google/gemini-2.5-pro-exp-03-25`
+- Built the core Q&A interface using Next.js App Router and TailwindCSS
+- Integrated multiple AI models via OpenRouter with fallback support
+- Explored:
+  - UI feedback through subtle animations (shake, typewriter, motion transitions)
+  - Prompt/response design patterns
+  - Symbolic and multilingual response handling
 
-> Note: Model usage is subject to daily free limits via OpenRouter.
+### ✅ Version 1.1
 
-## Development Notes
+- Added **PostgreSQL** integration to support persistent **question history**
+- Implemented:
+  - **Search, pagination, deletion** of history entries
+  - Backend logic via **API routes and Server Actions**
+  - Production database hosting on **Railway**
+  - Development database management using **Docker Compose**
 
-This is an MVP built with focus on clean component design, UI feedback, and prompt-to-response architecture.  
-The goal is to gradually expand features while keeping the experience minimal and focused.
+## Future Plans
 
-## TODO
-
-- Add prompt/response history
-- Deploy model usage logging (for debugging fallback behavior)
-- Support user-defined characters / personas
+- User authentication and saved sessions
+- Personalized prompt suggestions based on history
+- AI persona switching
+- Admin dashboard for model logging and analytics
 
 ## Getting Started
 
@@ -52,9 +57,10 @@ git clone https://github.com/gracefy/answer-book-ai.git
 # install dependencies
 npm install
 
-# set your in .env.local
+# Set environment variables in .env.local
 OPENROUTER_API_KEY=your-api-key-here
+DATABASE_URL=your-db-url-here
 
 # start the dev server
-npm dev
+npm run dev
 ```
