@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { registerSchema, loginSchema } from '@/lib/validation'
 import { zodErrorToDetails } from '@/lib/utils'
 import FormRow from '../ui/FormRow'
-import GradientButton from '../ui/GradientButton'
+import GradientButton from '@/components/ui/GradientButton'
 import { logError } from '@/lib/utils'
 
 type AuthFormProps = {
