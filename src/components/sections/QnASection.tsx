@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { askQuestion } from '@/app/actions/ask'
 import { addToHistory } from '@/app/actions/history'
-import IntroCard from '../cards/IntroCard'
+import IntroCard from '@/components/cards/IntroCard'
 import AskForm from '@/components/forms/AskForm'
 import AnswerCard from '@/components/cards/AnswerCard'
 import { useMagicSound } from '@/hooks/useMagicSound'
