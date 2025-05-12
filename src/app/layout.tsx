@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
+import Nav from '@/components/layouts/Nav'
+import Footer from '@/components/layouts/Footer'
+import VideoBackground from '@/components/layouts/VideoBackground'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,7 +37,24 @@ export default function RootLayout({
       <body
         className={`${garamond.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <main className="relative flex min-h-screen flex-col">
+          {/* Background video layer */}
+          <div className="absolute inset-0 z-0">
+            <VideoBackground />
+          </div>
+
+          {/* Main content layer */}
+          <div className="relative z-10 flex flex-1 flex-col">
+            {/* AuthProvider wraps the entire app to provide authentication context */}
+            <AuthProvider>
+              <Nav />
+              {children}
+            </AuthProvider>
+          </div>
+
+          {/* Footer always at the bottom */}
+          <Footer className="z-20 mt-auto" />
+        </main>
       </body>
     </html>
   )

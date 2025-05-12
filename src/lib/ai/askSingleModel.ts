@@ -1,5 +1,6 @@
 import { models } from './models'
-import { ApiResponse } from '@/types/api'
+import { Result } from '@/types/result'
+import { logError } from '@/lib/utils'
 
 /**
  * Fetches an answer from the AI using the OpenRouter API.
@@ -12,7 +13,7 @@ export async function askSingleModel(
   question: string,
   prompt: string,
   model: string = models.deepseek_v3
-): Promise<ApiResponse<string>> {
+): Promise<Result<string>> {
   // Check the key for OpenRouter
   if (!process.env.OPENROUTER_API_KEY) {
     return {
@@ -49,7 +50,7 @@ export async function askSingleModel(
     // Check if HTTP failed
     if (!res.ok) {
       const errorData = await res.json()
-      console.error('API error:', errorData)
+      logError('API error:', errorData)
       return {
         success: false,
         error: 'The spirits remain silent due to a network disruption.',
@@ -60,7 +61,7 @@ export async function askSingleModel(
     const data = await res.json()
 
     if (data.error) {
-      console.error('API logic error:', data.error)
+      logError('API logic error:', data.error)
       return {
         success: false,
         error: data.error.message || 'The spirits have declined your request.',
@@ -87,7 +88,7 @@ export async function askSingleModel(
       data: content,
     }
   } catch (error) {
-    console.error('Error fetching answer from AI:', error)
+    logError('Error fetching answer from AI:', error)
     return {
       success: false,
       error: 'Something went wrong while talking to the spirits.',
