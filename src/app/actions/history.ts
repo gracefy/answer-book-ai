@@ -54,6 +54,7 @@ export async function getUserHistory({
       },
     }
   } catch (error) {
+    console.error('[HISTORY FETCH ERROR]', error)
     logError('Error fetching history:', error)
     return {
       success: false,
