@@ -9,6 +9,8 @@ import { loginSchema } from '@/lib/validation'
 import { zodErrorToDetails } from '@/lib/utils'
 import { logError } from '@/lib/utils'
 
+console.log('[DEBUG] Prisma loaded in api/auth/login:', typeof prisma)
+
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { email, password } = await req.json()

@@ -5,6 +5,8 @@ import { getUserFromCookie } from '@/lib/auth'
 import { HistoryEntry } from '@/types/historyEntry'
 import { logError } from '@/lib/utils'
 
+console.log('[DEBUG] Prisma loaded in action/history:', typeof prisma)
+
 export async function getUserHistory({
   query = '',
   page = 1,
@@ -17,11 +19,14 @@ export async function getUserHistory({
   const user = await getUserFromCookie()
 
   if (!user) {
+    console.error('[HISTORY FETCH ERROR] User not authenticated')
     return {
       success: false,
       error: 'User not authenticated',
     }
   }
+
+  console.log('user in /action/history =', user)
 
   try {
     const whereClause = query
@@ -36,6 +41,8 @@ export async function getUserHistory({
           userId: user.id,
         }
 
+    console.log('whereClause in /action/history =', whereClause)
+
     const [items, total] = await Promise.all([
       prisma.history.findMany({
         where: whereClause,
@@ -45,6 +52,8 @@ export async function getUserHistory({
       }),
       prisma.history.count({ where: whereClause }),
     ])
+    console.log('items in /action/history =', items)
+    console.log('total in /action/history =', total)
 
     return {
       success: true,
@@ -54,11 +63,11 @@ export async function getUserHistory({
       },
     }
   } catch (error) {
-    console.error('[HISTORY FETCH ERROR]', error)
+    console.error('[HISTORY FETCH ERROR in action/history]', error)
     logError('Error fetching history:', error)
     return {
       success: false,
-      error: 'Failed to fetch user history',
+      error: 'Failed to fetch user history: ' + (error as Error).message,
     }
   }
 }
@@ -70,6 +79,7 @@ export async function addToHistory(
   const user = await getUserFromCookie()
 
   if (!user) {
+    console.error('[HISTORY ADD ERROR] User not authenticated')
     return {
       success: false,
       error: 'User not authenticated',
@@ -90,10 +100,11 @@ export async function addToHistory(
       data: historyEntry,
     }
   } catch (error) {
+    console.error('[HISTORY ADD ERROR in action/history]', error)
     logError('Error adding to history:', error)
     return {
       success: false,
-      error: 'Failed to add to history',
+      error: 'Failed to add to history: ' + (error as Error).message,
     }
   }
 }
