@@ -28,9 +28,11 @@ export default function HistorySection() {
         setItems(res.data.items)
         setTotal(res.data.total)
       } else {
+        console.error('[HISTORY FETCH ERROR in history section]', res.error)
         logError('Error fetching history:', res.error)
       }
     } catch (error) {
+      console.error('[HISTORY FETCH ERROR in history section catch: ]', error)
       logError('Unexpected error:', error)
     } finally {
       setIsLoading(false)
@@ -40,6 +42,10 @@ export default function HistorySection() {
   useEffect(() => {
     fetchHistory()
   }, [fetchHistory])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedQuery])
 
   const handleDelete = async (id: string) => {
     const res = await deleteHistoryEntry(id)

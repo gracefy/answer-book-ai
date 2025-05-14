@@ -1,13 +1,13 @@
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 // Prevent multiple PrismaClient instances in development
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
+const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
 // Reuse existing PrismaClient or create a new one
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    log: ['error'],
   })
 
 // Save to global object in development to avoid re-instantiating
