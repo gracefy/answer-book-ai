@@ -13,7 +13,7 @@
     "prisma:watch": "prisma generate --watch"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.24.0",
+    "@modelcontextprotocol/sdk": "^1.25.2",
     "@prisma/client": "5.14",
     "@radix-ui/react-alert-dialog": "^1.1.13",
     "@radix-ui/react-collapsible": "^1.1.10",
